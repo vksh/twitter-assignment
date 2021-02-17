@@ -37,6 +37,7 @@ const twitData = [];
 
 const getTwitData = async socket => {
   let twitDataInterval;
+  let isPaused;
   const sampledStream = streamConnect();
   let timeout = 0;
   sampledStream.on('Data Received', data => {
@@ -45,11 +46,21 @@ const getTwitData = async socket => {
   sampledStream.on('Error fetching twitData', () => {
     socket.emit('TwitDataError');
   });
+  socket.on('pause stream', () => {
+    sampledStream.pause();
+    isPaused = true;
+  });
+  socket.on('resume stream', () => {
+    sampledStream.resume();
+    isPaused = false;
+  });
   if (twitDataInterval) {
     clearInterval(twitDataInterval);
   }
   twitDataInterval = setInterval(() => {
-    socket.emit('Twit Data received', twitData.shift());
+      if (!isPaused) {
+        socket.emit('Twit Data received', twitData.shift());
+      }
   }, 2000);
   sampledStream.on('timeout', () => {
     // Reconnect on error

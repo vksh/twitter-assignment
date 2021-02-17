@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { socket } from '../client/Socket';
 import Tags from './tags/Tags';
+import {Error} from '../error/Error';
 import './TwitCloud.scss';
-
-// import PropTypes from 'prop-types';
 
 const TwitCloud = () => {
   const [trendsData, setTrendsData] = useState();
@@ -20,7 +19,7 @@ const TwitCloud = () => {
   }, []);
 
   if (hasError) {
-    return <div>Error</div>;
+    return <div className="twit-cloud error"><Error /></div>;
   }
   if (!trendsData) {
       return <div>Loading..</div>;
@@ -31,7 +30,5 @@ const TwitCloud = () => {
     </ul>
   );
 };
-
-TwitCloud.propTypes = {};
 
 export default TwitCloud;

@@ -1,0 +1,13 @@
+.twit-list-button-container{
+    display: flex;
+    justify-content: flex-end;
+    .twit-list-button{
+        background: #4a714a;
+        color: white;
+        height: 50px;
+        width: 100px;
+        border-radius: 5px;
+        font-size: 20px;
+        box-shadow: 6px 7px 6px 4px #d2d2d2;
+    }
+}

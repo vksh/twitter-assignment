@@ -3,8 +3,8 @@
   box-shadow: -3px -5px 20px 15px gainsboro;
   height: fit-content;
   padding: 15px;
+
   a {
-    --size: var(--weight);
     --color: #a33;
     color: var(--color);
     font-size: 30px;
@@ -39,12 +39,15 @@
   }
   li:nth-child(2n + 1) a {
     --color: #181;
+    font-size: 1rem;
   }
   li:nth-child(3n + 1) a {
     --color: #33a;
+    font-size: 2rem;
   }
   li:nth-child(4n + 1) a {
     --color: #c38;
+    font-size: 2.2rem;
   }
 }
 

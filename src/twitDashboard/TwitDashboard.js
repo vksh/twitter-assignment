@@ -10,6 +10,4 @@ const TwitDashboard = () => (
     </div>
   );
 
-// TwitDashboard.propTypes = {};
-
 export default TwitDashboard;

@@ -4,7 +4,8 @@ import './index.scss';
 import TwitDashboard from './TwitDashboard/TwitDashboard';
 
 export const App = () => (
-      <div><TwitDashboard />
+      <div>
+        <TwitDashboard />
       </div>
   )
 ;
