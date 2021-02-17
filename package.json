@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "webpack serve --open --hot",
+    "start:server": "node server/app.js",
     "build": "webpack --mode production",
     "test": "jest"
   },
