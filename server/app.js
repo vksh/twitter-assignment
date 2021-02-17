@@ -1,7 +1,10 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const fetchWrapper = require('./data-client/DataClient');
+const streamConnect = require('./data-client/SampleStream');
 
+// eslint-disable-next-line no-process-env
 const port = process.env.PORT || 4001;
 const index = require('./route/index');
 
@@ -11,27 +14,67 @@ app.use(index);
 const server = http.createServer(app);
 
 const io = socketIo(server, {
-    cors: {
-        origin: 'http://localhost:8080',
-        methods: ['GET', 'POST']
-      }
+  cors: {
+    origin: 'http://localhost:8080',
+    methods: ['GET', 'POST']
+  }
 });
 
 let interval;
 
-const getApiAndEmit = socket => {
-  const response = new Date();
-  socket.emit('FromAPI', response);
+const getTwitTrends = async socket => {
+  const response = await fetchWrapper.get(
+    'https://api.twitter.com/1.1/trends/place.json?id=20070458'
+  );
+  if (response instanceof Error) {
+    socket.emit('Error Fetching Trends');
+  } else {
+    socket.emit('Trends Updated', response);
+  }
+};
+
+const twitData = [];
+
+const getTwitData = async socket => {
+  let twitDataInterval;
+  const sampledStream = streamConnect();
+  let timeout = 0;
+  sampledStream.on('Data Received', data => {
+    twitData.push(data);
+  });
+  sampledStream.on('Error fetching twitData', () => {
+    socket.emit('TwitDataError');
+  });
+  if (twitDataInterval) {
+    clearInterval(twitDataInterval);
+  }
+  twitDataInterval = setInterval(() => {
+    socket.emit('Twit Data received', twitData.shift());
+  }, 2000);
+  sampledStream.on('timeout', () => {
+    // Reconnect on error
+    setTimeout(() => {
+      timeout++;
+      streamConnect();
+    }, 2 ** timeout);
+    streamConnect();
+  });
 };
 
 io.on('connection', socket => {
   if (interval) {
     clearInterval(interval);
   }
-  interval = setInterval(() => getApiAndEmit(socket), 1000);
+  getTwitTrends(socket);
+  getTwitData(socket);
+  interval = setInterval(() => {
+    getTwitTrends(socket);
+    // getTwitData(socket);
+  }, 10000);
   socket.on('disconnect', () => {
     clearInterval(interval);
   });
 });
 
+// eslint-disable-next-line no-console
 server.listen(port, () => console.log(`Listening on port ${port}`));
