@@ -1,0 +1,55 @@
+.twit-cloud {
+  border: 1px solid green;
+  box-shadow: -3px -5px 20px 15px gainsboro;
+  height: fit-content;
+  padding: 15px;
+  a {
+    --size: var(--weight);
+    --color: #a33;
+    color: var(--color);
+    font-size: 30px;
+    display: block;
+    padding: 0.125rem 0.25rem;
+    position: relative;
+    text-decoration: none;
+    word-break: break-all;
+    &:focus {
+      outline: 1px dashed;
+    }
+    &::after {
+      content: " (" attr(data-weight) ")";
+      font-size: 1rem;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0;
+      height: 100%;
+      background: var(--color);
+      transform: translate(-50%, 0);
+      opacity: 0.15;
+      transition: width 0.25s;
+    }
+    &:focus::before,
+    &:hover::before {
+      width: 100%;
+    }
+  }
+  li:nth-child(2n + 1) a {
+    --color: #181;
+  }
+  li:nth-child(3n + 1) a {
+    --color: #33a;
+  }
+  li:nth-child(4n + 1) a {
+    --color: #c38;
+  }
+}
+
+@media (prefers-reduced-motion) {
+  ul.twit-cloud * {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,20 @@
+.dashboard {
+  display: flex;
+  justify-content: space-evenly;
+  .twit-list {
+    width: 60%;
+    padding-top: 15px;
+  }
+  .twit-cloud {
+    width: 30%;
+  }
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    .twit-list {
+      width: 100%;
+    }
+    .twit-cloud {
+      width: 100%;
+    }
+  }
+}
