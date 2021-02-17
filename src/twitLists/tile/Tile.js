@@ -10,8 +10,10 @@ export const Tile = ({ imageUrl, username, message, createdAt }) => (
     </div>
     <div className='message-container'>
         <div className='message-text'>{message}</div>
-        <div className='username'>{username}</div>
-        <div className='created-at'>{createdAt}</div>
+        <div className='flex-row'>
+          <div className='username'>{username}</div>
+          <div className='created-at'>{createdAt}</div>
+        </div>
     </div>
   </div>
 );

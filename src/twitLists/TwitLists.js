@@ -13,7 +13,7 @@ export const TwitLists = () => {
   useEffect(() => {
     socket.on('Twit Data received', data => {
       if (data !== null) {
-        setTwitData(prevData => [...prevData, new TwitData(data)]);
+        setTwitData(prevData => [new TwitData(data), ...prevData]);
       }
     });
     socket.on('TwitDataError', () => {
@@ -36,7 +36,7 @@ export const TwitLists = () => {
   }
 
   if (twitData.length === 0) {
-    return <div>Loading...</div>;
+    return <div className="twit-list">Loading...</div>;
   }
   return (
     <div className="twit-list">

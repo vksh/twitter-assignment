@@ -80,7 +80,6 @@ io.on('connection', socket => {
   getTwitData(socket);
   interval = setInterval(() => {
     getTwitTrends(socket);
-    // getTwitData(socket);
   }, 10000);
   socket.on('disconnect', () => {
     clearInterval(interval);

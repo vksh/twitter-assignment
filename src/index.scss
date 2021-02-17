@@ -5,3 +5,7 @@ body{
 *{
   box-sizing: border-box;
 }
+.flex-row{
+  display: flex;
+  justify-content:space-between;
+}
